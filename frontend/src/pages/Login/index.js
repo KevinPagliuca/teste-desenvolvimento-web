@@ -1,17 +1,40 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button, Form, FormControl, Row } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 import backIcon from '../../assets/icons/back.svg';
 import pokeLogo from '../../assets/logo-dex.png';
+
 import './styles.css';
+import api from '../../services/api';
 
 const Login = () => {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
+    const history = useHistory();
+
+    async function handleLogin(e) {
+        e.preventDefault();
+
+        await api.post('/login', { email, password })
+            .then(res => {
+                localStorage.setItem('user_id', res.data.id);
+                localStorage.setItem('user_name', res.data.name);
+                localStorage.setItem('user_email', res.data.email);
+                sessionStorage.setItem('status', 1);
+                alert('Logado com sucesso!');
+                history.push('/');
+            }).catch(err => {
+                alert('Erro, email ou senha não conferem, tente novamente!');
+            })
+    }
+
     return (
         <div id="Login">
             <main>
                 <Link to="/" className="text-warning w-100 backToInitial">
-                    <img                        
+                    <img
                         src={backIcon}
                         alt="Voltar"
                         className="mr-4"
@@ -23,7 +46,7 @@ const Login = () => {
                     <img src={pokeLogo} width={400} alt="PokeLogo" />
                 </header>
 
-                <Form className="form-login" onSubmit={() => { }}>
+                <Form className="form-login" onSubmit={handleLogin}>
                     <h3 className="text-light w-100">Fazer Login</h3>
                     <Form.Group as={Row} className="w-100 text-light" >
                         <Form.Label className="w-100 text-warning" htmlFor="email">Email</Form.Label>
@@ -31,6 +54,9 @@ const Login = () => {
                             id="email"
                             placeholder="nome@examplo.com"
                             type="email"
+
+                            value={email}
+                            onChange={e => setEmail(e.target.value)}
                         />
                     </Form.Group>
 
@@ -40,6 +66,9 @@ const Login = () => {
                             id="senha"
                             placeholder="Senha"
                             type="password"
+
+                            value={password}
+                            onChange={e => setPassword(e.target.value)}
                         />
                     </Form.Group>
 

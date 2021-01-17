@@ -30,9 +30,7 @@ module.exports = {
             await connection('users').insert({
                 name,
                 email,
-                password: hash,
-                created_at: DateNow,
-                updated_at: DateNow
+                password: hash             
             });
             return res.status(200).json({ Sucesso: "Usuário criado com sucesso!" });
         } else {
@@ -49,6 +47,7 @@ module.exports = {
             .first();
 
         const findPassword = await connection('users').select('password').where('email', email).first();
+        
         if (consult) {
             if (findPassword) {
                 const match = await bcrypt.compare(password, findPassword.password);

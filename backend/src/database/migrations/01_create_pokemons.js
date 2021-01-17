@@ -3,7 +3,7 @@ exports.up = function (knex) {
         table.increments('id');
         table.string('Name').notNullable().unique('name');
         table.string('Pokedex_Number').notNullable();
-        table.integer('Generation');
+        table.integer('Generation').notNullable();
         table.integer('Evolution_Stage');
         table.string('Evolved');
         table.integer('FamilyID');

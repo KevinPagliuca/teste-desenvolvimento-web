@@ -14,49 +14,52 @@ const Home = () => {
     const [pokemons, setPokemons] = useState([]);
     const [counter, setCounter] = useState(0);
     const lastPage = Math.ceil(counter / 20);
-
+    const [page, setPage] = useState(1);
     const [search, setSearch] = useState('');
 
-    const [page, setPage] = useState(1);
-
-    async function getPokemons() {
-        await api.get(`/pokemons?page=${page}`)
-            .then(res => {
-                setPokemons(res.data[1]);
-                setCounter(res.data[0].total);
-            }).catch(err => {
-                alert(err);
-            });
-    }
+    const session = sessionStorage.getItem('status');
 
     useEffect(() => {
-        getPokemons();
-    }, [page]);
+        async function getPokemons() {
+            await api.get(`/pokemons?page=${page}`)
+                .then(res => {
+                    setPokemons(res.data[1]);
+                    setCounter(res.data[0].total);
+                }).catch(err => {
+                    alert(err);
+                });
+        }
 
-    async function Procurar() {
-        await api.post('/search', { SearchWord: search })
-            .then(res => {
-                if (res.data) {
-                    setPokemons(res.data);
-                }
-            }).catch(err => {
-                alert(err);
-            })
-    }
+        async function Procurar() {
+            await api.post('/search', { SearchWord: search })
+                .then(res => {
+                    if (res.data) {
+                        setPokemons(res.data);
+                    }
+                }).catch(err => {
+                    alert(err);
+                })
+        }
 
-    useEffect(() => {
         if (search !== '') {
             Procurar();
         } else {
             getPokemons();
         }
-    }, [search]);
+    }, [search, page]);
+
+    function handleLogout() {
+        sessionStorage.removeItem('status');
+        localStorage.removeItem('user_name');
+        localStorage.removeItem('user_id');
+        localStorage.removeItem('user_email');
+        window.location.reload();
+    }
 
     return (
-
         <div id="home">
             <header className="header-menu">
-                <Navbar expand="lg" variant="dark">
+                <Navbar variant="dark">
 
                     <Link className="navbar-brand" to="/">
                         <img
@@ -68,8 +71,14 @@ const Home = () => {
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
 
                     <Nav className="w-100 justify-content-end">
-                        <Link to="/" className="nav-link active">Página inicial</Link>
-                        <Link to="/login" className="nav-link">Login / Registro</Link>
+                        {session === "1" ?
+                            <>
+                                <Link to="/novoPokemon" className="nav-link">Cadastros</Link>
+                                <Link to="#Logout" className="nav-link" onClick={handleLogout}>Logout</Link>
+                            </>
+                            :
+                            <Link to="/login" className="nav-link">Login / Registro</Link>
+                        }
                     </Nav>
                 </Navbar>
             </header>
@@ -80,7 +89,7 @@ const Home = () => {
                     <FaSearch size={22} className="text-warning search-icon" />
                 </FormGroup>
             </Form>
-            
+
             <Container className="text-light mt-4 mb-4">
                 <Row >
                     {pokemons.map(pokemon => (
@@ -90,9 +99,8 @@ const Home = () => {
                             md={4}
                             lg={3}
                             xl={3}
-                            className="text-light"
                             key={pokemon.id}
-                            className="mb-3"
+                            className="text-light mb-3"
                         >
                             <Card className="text-light bg-dark">
                                 <Card.Body>
@@ -101,6 +109,7 @@ const Home = () => {
                                         src={"https://assets.pokemon.com/assets/cms2/img/pokedex/detail/" +
                                             pad(pokemon.Pokedex_Number, 3) + ".png"}
                                         alt="pokemon_img"
+                                        className="w-100"
 
                                     />
                                 </Card.Body>

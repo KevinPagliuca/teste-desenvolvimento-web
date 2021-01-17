@@ -9,18 +9,19 @@ body {
   background: #f0f0f0;
   -webkit-font-smoothing: antialiased;
   font-family: Roboto;
+  background: rgb(24, 25, 26);
 }
 
 button {
   cursor: pointer;
 }
 
-input {
+input, select {
   background: rgb(19, 19, 19) !important;
   border: 2px solid #333 !important;
   color: #fff !important;  
 }
 
-input:focus {
+input:focus, select:focus {
   box-shadow: 0 0 4px 0.2rem #ffc107 !important;
 }

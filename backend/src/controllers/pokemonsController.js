@@ -105,7 +105,13 @@ module.exports = {
                 return res.status(404).json({ NotFound: 'Não encontramos nenhum pokemon com este ID!' });
             }
         }
+    },
+    
+    async weathers(req, res) {
+        const weathers = await connection('pokemons')
+        .select('weather_1')
+        .distinct();
 
-
+        return res.status(200).json(weathers);
     }
 }

@@ -1,0 +1,22 @@
+#newPokemon {
+    display: flex;
+    min-height: 100vh;
+    position: relative;
+}
+
+#newPokemon .sidemenu {
+    width: 32rem;
+    background: rgb(28, 29, 30);
+    height: 100vh;
+}
+
+#newPokemon .newPokemon-container {
+    background: rgb(25, 25, 25);
+    border: 2px solid #333 !important;
+    border-radius: 8px !important;
+}
+
+#newPokemon h4:last-of-type {
+    border-top: 2px solid #333 !important;
+    padding-top: 1rem !important;
+}
