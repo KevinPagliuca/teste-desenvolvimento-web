@@ -4,7 +4,7 @@ module.exports = {
 
     //INDEX - Rota para realizar listagem de todos os pokemons, listando 20 por página.
 
-    async index(req, res) {
+    async index(req, res) { 
         const { page } = req.query;
         const [count] = await connection('pokemons').count();
 

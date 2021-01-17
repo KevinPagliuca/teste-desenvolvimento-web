@@ -7,7 +7,7 @@ import NewPokemon from './pages/NewPokemon';
 import Register from './pages/Register';
 
 const Routes = () => {
-    return (
+    return ( 
         <BrowserRouter>
             <Switch>
                 <Route path='/' exact component={Home} />
