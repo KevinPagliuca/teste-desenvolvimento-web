@@ -77,7 +77,7 @@ const Home = () => {
                                 <Link to="#Logout" className="nav-link btn btn-warning text-dark" onClick={handleLogout}>Logout</Link>
                             </>
                             :
-                            <Link to="/login" className="nav-link">Login / Registro</Link>
+                            <Link to="/login" className="nav-link btn btn-warning text-dark">Login / Registro</Link>
                         }
                     </Nav>
                 </Navbar>
