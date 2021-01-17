@@ -59,7 +59,7 @@ const Home = () => {
     return (
         <div id="home">
             <header className="header-menu">
-                <Navbar variant="dark">
+                <Navbar>
 
                     <Link className="navbar-brand" to="/">
                         <img
@@ -73,8 +73,8 @@ const Home = () => {
                     <Nav className="w-100 justify-content-end">
                         {session === "1" ?
                             <>
-                                <Link to="/novoPokemon" className="nav-link">Cadastros</Link>
-                                <Link to="#Logout" className="nav-link" onClick={handleLogout}>Logout</Link>
+                                <Link to="/novoPokemon" className="nav-link btn btn-warning text-dark">Cadastros</Link>
+                                <Link to="#Logout" className="nav-link btn btn-warning text-dark" onClick={handleLogout}>Logout</Link>
                             </>
                             :
                             <Link to="/login" className="nav-link">Login / Registro</Link>
@@ -121,6 +121,14 @@ const Home = () => {
             {counter > 20 && search === '' ?
                 <Container>
                     <Row className='justify-content-center'>
+                        {page - 2 > 1 ?
+                            <Button variant="warning" className="ml-3" onClick={() => setPage(1)}>
+                                Primeira Página
+                            </Button>
+                            :
+                            null
+                        }
+
                         {page !== 1 ?
                             <Button variant="warning" className="ml-3" onClick={() => setPage(page - 1)}>
                                 <FaArrowLeft />
